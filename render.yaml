@@ -2,8 +2,9 @@ services:
   # Web Service - API PHP
   - type: web
     name: eai-api
-    runtime: php
+    runtime: docker
     plan: free
+    dockerfilePath: ./api/Dockerfile
     buildCommand: |
       echo "Build completed"
     startCommand: |
