@@ -5,10 +5,6 @@ services:
     runtime: docker
     plan: free
     dockerfilePath: ./api/Dockerfile
-    buildCommand: |
-      echo "Build completed"
-    startCommand: |
-      php -S 0.0.0.0:$PORT -t .
     envVars:
       - key: DB_HOST
         sync: false
