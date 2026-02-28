@@ -1,0 +1,39 @@
+services:
+  # Web Service - API PHP
+  - type: web
+    name: eai-api
+    runtime: php
+    plan: free
+    buildCommand: |
+      echo "Build completed"
+    startCommand: |
+      php -S 0.0.0.0:$PORT -t .
+    envVars:
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        sync: false
+    healthCheckPath: /?action=stats
+
+  # Static Site - Frontend
+  - type: static
+    name: eai-frontend
+    buildCommand: echo "No build needed"
+    staticPublishPath: ./frontend
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: API_URL
+        fromService:
+          type: web
+          name: eai-api
+          property: host
+        value: https://eai-api.onrender.com
